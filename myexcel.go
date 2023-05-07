@@ -5,11 +5,9 @@ import (
 	"strconv"
 	"strings"
 
-	mylog "github.com/asatisa/pglmmylog"
-
-	myutil "github.com/asatisa/pglmmyutil"
-
 	"github.com/360EntSecGroup-Skylar/excelize"
+	mylog "github.com/asatisa/pglmmylog"
+	myutil "github.com/asatisa/pglmmyutil"
 )
 
 const version = "1.0.0.0"
