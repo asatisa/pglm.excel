@@ -5,12 +5,13 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/360EntSecGroup-Skylar/excelize"
 	mylog "github.com/asatisa/pglmmylog"
 	myutil "github.com/asatisa/pglmmyutil"
+
+	"github.com/360EntSecGroup-Skylar/excelize"
 )
 
-const version = "1.0.0.0"
+const version = "1.0.0.01" // Update column A, B for Customer Data
 
 type ExcelRow struct {
 	No    int    // Index no
@@ -21,6 +22,10 @@ type ExcelRow struct {
 func ReadExcel(filename string) bool {
 	fmt.Print(filename)
 	return true
+}
+
+func GetVersion() string {
+	return version
 }
 
 //var asource1 []string //array of source1
@@ -34,7 +39,6 @@ func GetExcelMaxRows_SetData(excel_filename string, excel_sheet_name string) int
 		fmt.Println(err)
 		return -1
 	}
-	//defer f.Close() // close the file at the end of the function using defer
 
 	var current_row int = 0
 	var axis = ""
@@ -42,9 +46,15 @@ func GetExcelMaxRows_SetData(excel_filename string, excel_sheet_name string) int
 	mylog.PrintInfo("Excel Compare Filename: " + excel_filename)
 	mylog.PrintInfo("		Count all rows of excel")
 	GlobalSource = nil
+	readCol := "A"
+	if strings.Contains(strings.ToUpper(excel_filename), "CUSTOMER.XLSX") {
+		readCol = "B"
+	} else {
+		readCol = "A"
+	}
 	for i := 1; i <= excel_read_max_rows; i++ {
 		current_row = i - 1
-		axis = fmt.Sprintf("A%d", i)
+		axis = fmt.Sprintf(readCol+"%d", i)
 		cellVal := f.GetCellValue(excel_sheet_name, axis)
 		//asource1 = append(asource1, cellVal)
 		var xrow ExcelRow
